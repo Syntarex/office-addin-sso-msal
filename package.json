@@ -1,0 +1,53 @@
+{
+    "name": "saxware-example",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "astro": "astro",
+        "prebuild": "drizzle-kit generate --config ./db.config.ts",
+        "build": "astro build",
+        "clean": "rimraf ./node_modules/.astro && rimraf ./.astro && rimraf ./dist && rimraf ./deploy.zip",
+        "dev": "astro dev",
+        "lint": "eslint ./src",
+        "migrate": "drizzle-kit generate --config ./db.config.ts && drizzle-kit migrate --config ./db.config.ts",
+        "start": "HOST=0.0.0.0 PORT=8080 node ./dist/server/entry.mjs"
+    },
+    "dependencies": {
+        "@astrojs/check": "^0.9.5",
+        "@astrojs/node": "^9.5.1",
+        "@libsql/client": "^0.15.15",
+        "@oslojs/crypto": "^1.0.1",
+        "@oslojs/encoding": "^1.1.0",
+        "@pnp/core": "^4.17.0",
+        "@pnp/graph": "^4.17.0",
+        "@pnp/nodejs": "^4.17.0",
+        "@pnp/queryable": "^4.17.0",
+        "@vitejs/plugin-basic-ssl": "^2.1.0",
+        "arctic": "^3.7.0",
+        "astro": "^5.15.9",
+        "chalk": "^5.6.2",
+        "drizzle-kit": "^0.31.7",
+        "drizzle-orm": "^0.44.7",
+        "radash": "^12.1.1",
+        "sharp": "^0.34.5",
+        "zod": "^3.25.76"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@microsoft/microsoft-graph-types": "^2.43.1",
+        "@typescript-eslint/parser": "^8.47.0",
+        "eslint": "^9.39.1",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-astro": "^1.5.0",
+        "prettier": "^3.6.2",
+        "prettier-plugin-astro": "^0.14.1",
+        "prettier-plugin-packagejson": "^2.5.19",
+        "rimraf": "^6.1.0",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.47.0"
+    },
+    "engines": {
+        "node": ">=22",
+        "npm": ">=10"
+    }
+}

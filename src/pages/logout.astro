@@ -1,0 +1,16 @@
+---
+import { invalidateSession } from "@/auth/lib/handle-session";
+import { deleteSessionTokenCookie } from "@/auth/lib/handle-session-cookie";
+import RootLayout from "@/ui/components/RootLayout.astro";
+
+const { session } = Astro.locals;
+
+await invalidateSession(session.id);
+deleteSessionTokenCookie(Astro);
+---
+
+<RootLayout>
+    <title slot="head">Logout</title>
+
+    <p>Thanks for your stay!</p>
+</RootLayout>
