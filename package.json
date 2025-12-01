@@ -8,7 +8,6 @@
         "build": "astro build",
         "clean": "rimraf ./node_modules/.astro && rimraf ./.astro && rimraf ./dist && rimraf ./deploy.zip",
         "dev": "astro dev",
-        "lint": "eslint ./src",
         "migrate": "drizzle-kit generate --config ./db.config.ts && drizzle-kit migrate --config ./db.config.ts",
         "start": "HOST=0.0.0.0 PORT=8080 node ./dist/server/entry.mjs"
     },
@@ -33,18 +32,12 @@
         "zod": "^3.25.76"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.1",
         "@microsoft/microsoft-graph-types": "^2.43.1",
-        "@typescript-eslint/parser": "^8.47.0",
-        "eslint": "^9.39.1",
-        "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-astro": "^1.5.0",
         "prettier": "^3.6.2",
         "prettier-plugin-astro": "^0.14.1",
         "prettier-plugin-packagejson": "^2.5.19",
         "rimraf": "^6.1.0",
-        "typescript": "^5.9.3",
-        "typescript-eslint": "^8.47.0"
+        "typescript": "^5.9.3"
     },
     "engines": {
         "node": ">=22",

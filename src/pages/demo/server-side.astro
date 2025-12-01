@@ -1,0 +1,25 @@
+---
+import { getServerGraph } from "@/graph/lib/get-server-graph";
+import RootLayout from "@/ui/components/RootLayout.astro";
+
+export const prerender = false;
+
+const { session } = Astro.locals;
+const graph = getServerGraph(session.accessToken);
+
+const user = await graph.me();
+
+if (!user) {
+    return Astro.redirect("/500");
+}
+
+console.info("Server Side Example", JSON.stringify(user));
+---
+
+<RootLayout>
+    <title slot="head">Server Side Example</title>
+
+    <h1>Server Side Example</h1>
+
+    <p>Hi {user.displayName ?? "Unknown User"}!</p>
+</RootLayout>

@@ -10,13 +10,5 @@ export default {
     printWidth: 100,
     semi: true,
     tabWidth: 4,
-    trailingComma: "all",
-    overrides: [
-        {
-            files: "*.astro",
-            options: {
-                parser: "astro",
-            },
-        },
-    ],
+    trailingComma: "all"
 };
