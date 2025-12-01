@@ -35,7 +35,7 @@ import RootLayout from "@/ui/components/RootLayout.astro";
                 const { accessToken } = await response.json();
 
                 if (!accessToken) {
-                    throw new Error("Failed to get access token.", { cause: me });
+                    throw new Error("Failed to get access token.", { cause: accessToken });
                 }
 
                 console.info("Client Side Example", accessToken);

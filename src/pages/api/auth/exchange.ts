@@ -3,6 +3,8 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
+// TODO: Add token validation!
+// https://learn.microsoft.com/en-us/office/dev/add-ins/develop/sso-in-office-add-ins?tabs=xmlmanifest#validate-the-access-token
 export const POST: APIRoute = async ({ request }) => {
     const headerToken = request.headers.get("Authorization")
 
