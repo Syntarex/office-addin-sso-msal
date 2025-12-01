@@ -16,7 +16,7 @@ export const GET: APIRoute = async (context) => {
 
     // Validate session
     const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-    const { session, user } = await validateSession(sessionId);
+    const { session } = await validateSession(sessionId);
 
     // If session isn't present, delete the cookie
     if (!session) {
@@ -33,7 +33,7 @@ export const GET: APIRoute = async (context) => {
     const sanitizedSession = omit(session, ["refreshToken"]);
 
     // Return session and user information
-    return new Response(JSON.stringify({ session: sanitizedSession, user }), {
+    return new Response(JSON.stringify(sanitizedSession), {
         status: 200,
         headers: {
             "Content-Type": "application/json",

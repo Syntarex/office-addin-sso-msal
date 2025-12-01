@@ -4,14 +4,20 @@ import RootLayout from "@/ui/components/RootLayout.astro";
 
 export const prerender = false;
 
+/**
+ * This example shows the following authentication route:
+ * - Client fetches page from the server
+ * - Server runs authentication middleware and redirects to the login page if authentication failes
+ * - Server renders page and provides the user's `Session`
+ * - Server uses `Graph` to fetch user information from the Graph API
+ * - Server responds with the page and data from `Graph` already at its place
+ * - Client shows page without running any JavaScript
+ */
+
 const { session } = Astro.locals;
 const graph = getServerGraph(session.accessToken);
 
 const user = await graph.me();
-
-if (!user) {
-    return Astro.redirect("/500");
-}
 
 console.info("Server Side Example", JSON.stringify(user));
 ---
