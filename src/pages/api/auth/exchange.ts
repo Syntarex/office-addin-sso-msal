@@ -14,16 +14,25 @@ export const POST: APIRoute = async ({ request }) => {
         });
     }
 
-    // Exchange the SSO token for a Graph token
-    const graphToken = exchangeSSOToken(token);
+    try {
+        // Exchange the SSO token for a Graph token
+        const graphToken = await exchangeSSOToken(token);
 
-    return new Response(JSON.stringify({
-        accessToken: graphToken,
-    }), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-
+        return new Response(JSON.stringify({
+            accessToken: graphToken,
+        }), {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Failed to exchange token";
+        return new Response(JSON.stringify({ error: errorMessage }), {
+            status: 500,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    }
 };
