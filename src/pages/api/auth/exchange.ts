@@ -6,10 +6,6 @@ export const prerender = false;
 // TODO: Add token validation!
 // https://learn.microsoft.com/en-us/office/dev/add-ins/develop/sso-in-office-add-ins?tabs=xmlmanifest#validate-the-access-token
 export const POST: APIRoute = async ({ request }) => {
-    const headerToken = request.headers.get("Authorization")
-
-    console.info("Header Token", headerToken);
-
     // Get the SSO token from the request body
     const { token } = await request.json();
 
