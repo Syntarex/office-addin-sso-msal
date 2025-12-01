@@ -34,6 +34,7 @@ export async function exchangeSSOToken(token: string): Promise<string> {
 
     const data = await response.json() as { access_token: string };
 
+    console.info("Exchange SSO Token", JSON.stringify(data));
     if (!data.access_token) {
         throw new Error("No access token received from token exchange");
     }
