@@ -5,6 +5,8 @@ import { encodeHexLowerCase } from "@oslojs/encoding";
 import type { APIRoute } from "astro";
 import { omit } from "radash";
 
+export const prerender = false;
+
 export const GET: APIRoute = async (context) => {
     // Check for session cookie
     const token = context.cookies.get("session")?.value ?? null;

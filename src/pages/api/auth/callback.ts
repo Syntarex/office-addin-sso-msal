@@ -7,6 +7,8 @@ import { decodeIdToken, type OAuth2Tokens } from "arctic";
 import type { APIRoute } from "astro";
 import { isString } from "radash";
 
+export const prerender = false;
+
 export const GET: APIRoute = async (context) => {
     // Get params send over by Microsoft Entra
     const code = context.url.searchParams.get("code");

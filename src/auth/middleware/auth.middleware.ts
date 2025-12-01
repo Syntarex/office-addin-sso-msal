@@ -6,7 +6,6 @@ import {
 } from "@/auth/lib/handle-session-cookie";
 import { encryptSessionToken } from "@/auth/lib/handle-session-token";
 import { handleUnauthorizedRequest } from "@/auth/lib/handle-unauthorized-request";
-import { getServerGraph } from "@/graph/lib/get-server-graph";
 import { defineMiddleware } from "astro:middleware";
 
 /**
@@ -53,10 +52,6 @@ export default defineMiddleware(async (context, next) => {
 
     // Set user session
     context.locals.session = session;
-
-    // Create graph client in user's context
-    const graph = getServerGraph(session);
-    context.locals.graph = graph;
 
     return next();
 });

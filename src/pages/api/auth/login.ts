@@ -2,6 +2,8 @@ import { microsoftEntra, scopes } from "@/auth/auth.config";
 import { generateCodeVerifier, generateState } from "arctic";
 import type { APIRoute } from "astro";
 
+export const prerender = false;
+
 export const GET: APIRoute = async ({ redirect, cookies }) => {
     // Delete cookies
     cookies.delete("microsoft_entra_state");
