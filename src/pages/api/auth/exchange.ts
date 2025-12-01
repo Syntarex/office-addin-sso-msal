@@ -4,6 +4,10 @@ import type { APIRoute } from "astro";
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+    const headerToken = request.headers.get("Authorization")
+
+    console.info("Header Token", headerToken);
+
     // Get the SSO token from the request body
     const { token } = await request.json();
 
