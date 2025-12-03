@@ -82,7 +82,7 @@
       </bt:LongStrings>
     </Resources>
     <WebApplicationInfo>
-        <Id>5661fed9-f33d-4e95-b6cf-624a34a2f51d</Id>
+        <Id>8015d50d-be73-44a1-addd-74d6d8a42ca8</Id>
         <Resource>api://localhost:3000/8015d50d-be73-44a1-addd-74d6d8a42ca8</Resource>
         <Scopes>
             <Scope>openid</Scope>
