@@ -53,12 +53,12 @@ export default defineConfig({
                 default: site,
             },
             TENANT_ID: {
-                context: "server",
+                context: "client",
                 access: "public",
                 type: "string",
             },
             ENTRA_APP_ID: {
-                context: "server",
+                context: "client",
                 access: "public",
                 type: "string",
             },
