@@ -1,10 +1,22 @@
-import { accessTokenTreshold, microsoftEntra, scopes, sessionLifetime } from "@/auth/auth.config";
+import { accessTokenTreshold, scopes, sessionLifetime } from "@/auth/auth.config";
 import type { Session } from "@/auth/models/session.model";
 import type { User } from "@/auth/models/user.model";
 import { db } from "@/db";
 import { SessionTable, UserTable } from "@/db/db.schema";
-import type { OAuth2Tokens } from "arctic";
+import { MicrosoftEntraId, type OAuth2Tokens } from "arctic";
+import { ENTRA_APP_ID, TENANT_ID } from "astro:env/client";
+import { ENTRA_APP_SECRET, SITE_URL } from "astro:env/server";
 import { eq } from "drizzle-orm";
+
+/**
+ * An `arctic` instance which helps interacting with Microsoft Entra ID.
+ */
+ const microsoftEntra = new MicrosoftEntraId(
+    TENANT_ID,
+    ENTRA_APP_ID,
+    ENTRA_APP_SECRET,
+    `https://${SITE_URL}/api/auth/callback`,
+);
 
 /**
  * This is the app's __main session handler__.
