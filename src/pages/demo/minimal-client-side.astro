@@ -17,44 +17,7 @@ import RootLayout from "@/ui/components/RootLayout.astro";
     <h1>Minimal Client Side Example</h1>
 
     <script>
-        import { getClientGraph } from "@/graph/lib/get-client-graph";
 
-        Office.onReady(async () => {
-            const bootstrapToken = await Office.auth.getAccessToken();
-
-            try {
-                const response = await fetch("/api/auth/exchange", {
-                    method: "POST",
-                    body: JSON.stringify({ token: bootstrapToken }),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Failed to exchange token. HttpCode: ${response.status}`, { cause: response });
-                }
-
-                const { accessToken } = await response.json();
-
-                if (!accessToken) {
-                    throw new Error("Failed to get access token.", { cause: accessToken });
-                }
-
-                console.info("Client Side Example", accessToken);
-
-                const graph = getClientGraph(accessToken);
-
-                const user = await graph.me();
-
-                if (!user) {
-                    throw new Error("Failed to get user information.", { cause: user });
-                }
-
-                console.info("Client Side Example", user);
-
-                document.getElementById("displayName")!.textContent = user.displayName ?? "Unknown User";
-            } catch (error) {
-                console.error(error);
-            }
-        })
     </script>
 
     <p>Hi <span id="displayName">Loading...</span>!</p>

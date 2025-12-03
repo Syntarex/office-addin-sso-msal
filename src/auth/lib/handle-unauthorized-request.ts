@@ -23,5 +23,5 @@ export async function handleUnauthorizedRequest(context: APIContext): Promise<Re
 
     // User tries to access a protected page
     // Redirect the user to the login page
-    return context.redirect("/api/auth/login");
+    return context.redirect("/login");
 }

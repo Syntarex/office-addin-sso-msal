@@ -12,7 +12,7 @@ import { defineMiddleware } from "astro:middleware";
  * Defines which routes aren't protected.
  * Be aware that this includes sub-routes.
  */
-const unprotectedRoutes: string[] = ["/api/auth"];
+const unprotectedRoutes: string[] = ["/login", "/api/auth"];
 
 export default defineMiddleware(async (context, next) => {
     // No need to protect static content

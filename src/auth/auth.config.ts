@@ -1,6 +1,6 @@
 import { MicrosoftEntraId } from "arctic";
-import { ENTRA_APP_ID, ENTRA_APP_SECRET, SITE_URL, TENANT_ID } from "astro:env/server";
-
+import { ENTRA_APP_ID, TENANT_ID } from "astro:env/client";
+import { ENTRA_APP_SECRET, SITE_URL } from "astro:env/server";
 /**
  * The lifetime of a session.
  * Value is in milliseconds.

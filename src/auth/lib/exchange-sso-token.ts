@@ -1,4 +1,5 @@
-import { ENTRA_APP_ID, ENTRA_APP_SECRET, TENANT_ID } from "astro:env/server";
+import { ENTRA_APP_ID, TENANT_ID } from "astro:env/client";
+import { ENTRA_APP_SECRET } from "astro:env/server";
 
 /**
  * Exchanges an SSO token from Microsoft Office SDK for a Microsoft Graph access token
@@ -34,6 +35,8 @@ export async function exchangeSSOToken(token: string): Promise<string> {
     }
 
     const data = await response.json() as { access_token: string };
+
+    console.info(data)
 
     if (!data.access_token) {
         throw new Error("No access token received from token exchange");
