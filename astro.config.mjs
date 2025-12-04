@@ -47,7 +47,7 @@ export default defineConfig({
                 optional: true,
             },
             SITE_URL: {
-                context: "server",
+                context: "client",
                 access: "public",
                 type: "string",
                 default: site,
@@ -67,6 +67,11 @@ export default defineConfig({
                 access: "secret",
                 type: "string",
             },
+            ENTRA_APP_API_RESOURCE: {
+                context: "client",
+                access: "public",
+                type: "string",
+            }
         },
     },
     vite: {

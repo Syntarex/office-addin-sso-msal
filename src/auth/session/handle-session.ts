@@ -4,8 +4,8 @@ import type { User } from "@/auth/models/user.model";
 import { db } from "@/db";
 import { SessionTable, UserTable } from "@/db/db.schema";
 import { MicrosoftEntraId, type OAuth2Tokens } from "arctic";
-import { ENTRA_APP_ID, TENANT_ID } from "astro:env/client";
-import { ENTRA_APP_SECRET, SITE_URL } from "astro:env/server";
+import { ENTRA_APP_ID, SITE_URL, TENANT_ID } from "astro:env/client";
+import { ENTRA_APP_SECRET } from "astro:env/server";
 import { eq } from "drizzle-orm";
 
 /**

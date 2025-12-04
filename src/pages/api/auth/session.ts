@@ -1,5 +1,5 @@
-import { validateSession } from "@/auth/lib/handle-session";
-import { deleteSessionTokenCookie, setSessionTokenCookie } from "@/auth/lib/handle-session-cookie";
+import { validateSession } from "@/auth/session/handle-session";
+import { deleteSessionTokenCookie, setSessionTokenCookie } from "@/auth/session/handle-session-cookie";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeHexLowerCase } from "@oslojs/encoding";
 import type { APIRoute } from "astro";

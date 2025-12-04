@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
-import { ENTRA_APP_ID, TENANT_ID } from "astro:env/client";
-import { SITE_URL } from "astro:env/server";
+import { ENTRA_APP_ID, SITE_URL, TENANT_ID } from "astro:env/client";
 
 export const prerender = false;
 

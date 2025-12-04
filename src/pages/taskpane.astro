@@ -8,7 +8,7 @@ import RootLayout from "@/ui/components/RootLayout.astro";
     <h1>Hi <span id="displayName">Loading...</span>!</h1>
 
     <script>
-        import { authenticate } from "@/auth/lib/authenticate";
+        import { authenticate } from "@/auth";
 import { getClientGraph } from "@/graph/lib/get-client-graph";
 
         const session = await authenticate();
