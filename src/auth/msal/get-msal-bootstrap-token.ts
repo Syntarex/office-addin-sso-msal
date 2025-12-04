@@ -6,13 +6,20 @@ import { SITE_URL } from "astro:env/client";
  * Gets a bootstrap token using MSAL (Microsoft Authentication Library for the browser.)
  */
 export async function getMSALBootstrapToken(): Promise<string> {
-     // Try to get account from cache first
-     const accounts = msal.getAllAccounts();
-     const account = accounts[0];
+    await msal.initialize();
+
+    // Try to get account from cache first
+    const accounts = msal.getAllAccounts();
+
+    console.log("Accounts: ", accounts);
+
+    const account = accounts[0];
+
+    console.log("Account: ", account);
 
     // Attempt to acquire token silently if user is already signed in.
-    if (account !== null) {
-        const result = await msal.acquireTokenSilent(msalLoginRequest);
+    if (account) {
+        const result = await msal.acquireTokenSilent({ ...msalLoginRequest, account });
 
         if (result !== null && result.accessToken !== null) {
             return result.accessToken;
