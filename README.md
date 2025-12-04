@@ -8,6 +8,123 @@ Ein Office Add-In ist eine Web-Anwendung, die innerhalb von Microsoft Office-Anw
 
 Weitere Informationen finden Sie in der [offiziellen Office Add-Ins Dokumentation](https://learn.microsoft.com/office/dev/add-ins/).
 
+## Installation und Testen
+
+### Voraussetzungen
+
+- **Node.js**: Version 22 oder höher
+- **npm**: Version 10 oder höher
+- **Microsoft Office**: Word, Excel, PowerPoint oder Outlook (für das Testen des Add-Ins)
+- **Azure Entra ID App Registration**: Siehe Abschnitt 4.1 für Details zur Konfiguration
+
+### Schritt-für-Schritt Anleitung
+
+#### 1. Projekt klonen
+
+```bash
+git clone <repository-url>
+cd saxware-example
+```
+
+#### 2. Abhängigkeiten installieren
+
+```bash
+npm install
+```
+
+#### 3. Umgebungsvariablen konfigurieren
+
+Erstellen Sie eine `.env` Datei im Projekt-Root basierend auf `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+Bearbeiten Sie die `.env` Datei und tragen Sie Ihre Azure Entra ID Werte ein:
+- `TENANT_ID`: Ihre Azure Tenant-ID
+- `ENTRA_APP_ID`: Ihre Application (Client) ID
+- `ENTRA_APP_SECRET`: Ihr Client Secret
+- `ENTRA_APP_API_RESOURCE`: Format: `api://<SITE_URL>/<ENTRA_APP_ID>`
+- `DB_URL`: Ihre Datenbank-URL. **Standardmäßig wird eine lokale SQLite-Datei erstellt** (z.B. `file:./local.db`). Dies ist eine einfache Datei-basierte Datenbank, die perfekt zum Testen geeignet ist. Für Production können Sie eine Remote-Datenbank wie Turso verwenden.
+- `ASTRO_KEY`: Generieren Sie einen sicheren zufälligen String (z.B. `openssl rand -base64 32`)
+
+#### 4. Datenbank-Migrationen ausführen
+
+```bash
+npm run migrate
+```
+
+Dies erstellt die notwendigen Datenbank-Tabellen (User und Session). Wenn Sie keine `DB_URL` in der `.env` Datei angegeben haben, wird automatisch eine lokale SQLite-Datei erstellt. Dies ist eine einfache Datei-basierte Datenbank, die perfekt zum Testen geeignet ist.
+
+#### 5. Development-Server starten
+
+```bash
+npm run dev
+```
+
+Der Server startet auf `https://localhost:3000` mit einem selbst-signierten SSL-Zertifikat.
+
+#### 6. SSL-Zertifikat vertrauen (wichtig!)
+
+⚠️ **Wichtig**: Bevor Sie das Add-In in Office laden können, müssen Sie das SSL-Zertifikat in Ihrem Browser vertrauen:
+
+1. Öffnen Sie `https://localhost:3000` in Ihrem Browser
+2. Sie sehen eine Warnung über ein nicht vertrauenswürdiges Zertifikat
+3. Klicken Sie auf "Erweitert" oder "Advanced"
+4. Klicken Sie auf "Trotzdem fortfahren" oder "Proceed to localhost (unsafe)"
+5. **Wichtig**: Einige Browser (z.B. Chrome) benötigen, dass Sie das Zertifikat explizit als vertrauenswürdig markieren:
+   - Klicken Sie auf das Schloss-Symbol in der Adressleiste
+   - Wählen Sie "Zertifikat anzeigen" oder "Certificate"
+   - Installieren Sie das Zertifikat in Ihrem System-Zertifikatsspeicher
+
+**Warum ist das notwendig?**
+Office Add-Ins benötigen HTTPS für die Kommunikation. Der Development-Server verwendet ein selbst-signiertes Zertifikat, das standardmäßig nicht vertrauenswürdig ist. Office kann das Add-In nur laden, wenn das Zertifikat vom System als vertrauenswürdig eingestuft wurde.
+
+#### 7. Manifest in Office sideloaden
+
+**Option A: Über Office UI (Word, Excel, PowerPoint)**
+
+1. Öffnen Sie Word, Excel oder PowerPoint
+2. Gehen Sie auf den Tab **Home** und öffnen Sie das "AddIns"-Dropdown
+3. Klicken Sie auf **Erweitert** → **Mein AddIn hochladen**
+4. Navigieren Sie zu `manifest.xml` im Projekt-Root
+5. Bestätigen Sie die Installation
+
+#### 8. Add-In testen
+
+1. Nach dem Sideloaden sollte das Add-In in Office verfügbar sein
+2. Klicken Sie auf den Add-In Button in der Menüleiste
+3. Die Taskpane sollte sich öffnen
+4. Der Authentifizierungs-Flow startet automatisch:
+   - Zuerst wird versucht, SSO zu verwenden
+   - Falls SSO nicht verfügbar ist, öffnet sich ein MSAL-Dialog
+5. Nach erfolgreicher Authentifizierung sehen Sie Ihren Namen in der Taskpane
+
+### Troubleshooting
+
+**Problem: SSL-Zertifikat wird nicht akzeptiert**
+- Stellen Sie sicher, dass Sie `https://localhost:3000` im Browser geöffnet und das Zertifikat vertraut haben
+- Auf macOS: Prüfen Sie die Keychain Access App, ob das Zertifikat installiert ist
+- Auf Windows: Prüfen Sie die Zertifikat-Verwaltung
+
+**Problem: Add-In lädt nicht in Office**
+- Prüfen Sie, ob der Development-Server läuft (`npm run dev`)
+- Prüfen Sie die Browser-Konsole auf Fehler (F12)
+- Prüfen Sie die Office-Protokolle für Fehlermeldungen
+- Stellen Sie sicher, dass `manifest.xml` korrekt konfiguriert ist (siehe Abschnitt 4.2)
+
+**Problem: Authentifizierung schlägt fehl**
+- Prüfen Sie Ihre `.env` Datei auf korrekte Werte
+- Stellen Sie sicher, dass die Azure App Registration korrekt konfiguriert ist
+- Prüfen Sie die Server-Logs auf Fehlermeldungen
+- Vergewissern Sie sich, dass die Redirect URIs im Azure Portal korrekt sind
+
+**Problem: Datenbank-Fehler**
+- Stellen Sie sicher, dass `DB_URL` korrekt konfiguriert ist (oder lassen Sie es leer für eine lokale SQLite-Datei)
+- Führen Sie `npm run migrate` aus, um die Datenbank-Tabellen zu erstellen
+- Bei lokaler SQLite-Datei: Prüfen Sie, ob die Datei im Projekt-Root erstellt wurde
+- Bei Remote-Datenbanken: Prüfen Sie, ob Sie Zugriff auf die Datenbank haben
+
 ## Übersicht des Authentifizierungs-Flows
 
 Dieses Beispiel implementiert einen zweistufigen Authentifizierungsprozess:
