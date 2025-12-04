@@ -1,7 +1,10 @@
-# saxware example
+# Office AddIn Authentication
 
-https://learn.microsoft.com/en-us/office/dev/add-ins/develop/authorize-to-microsoft-graph
 
-App Registration:
-https://learn.microsoft.com/en-us/office/dev/add-ins/develop/register-sso-add-in-aad-v2
 
+
+## Was fehlt
+
+Aktuell werden die Bootstrap Tokens nicht validiert. 
+Dies ist empfohlen. Wie das funktioniert, kann hier nachgelesen werden:
+[Code-Beispiel](https://github.com/OfficeDev/Office-Add-in-samples/blob/main/Samples/auth/Office-Add-in-NodeJS-SSO/Complete/server-helpers/obo-auth-helper.js)

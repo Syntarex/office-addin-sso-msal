@@ -10,12 +10,7 @@ export async function getMSALBootstrapToken(): Promise<string> {
 
     // Try to get account from cache first
     const accounts = msal.getAllAccounts();
-
-    console.log("Accounts: ", accounts);
-
     const account = accounts[0];
-
-    console.log("Account: ", account);
 
     // Attempt to acquire token silently if user is already signed in.
     if (account) {

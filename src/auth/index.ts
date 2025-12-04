@@ -1,28 +1,27 @@
 import type { Session } from "@/auth/models/session.model";
 import { getMSALBootstrapToken } from "@/auth/msal/get-msal-bootstrap-token";
+import { getSSOBootstrapToken } from "@/auth/sso/get-sso-bootstrap-token";
 
 export async function authenticate(): Promise<Session> {
     const session: Session = await new Promise<Session>((resolve, reject) => {
         Office.onReady(async () => {
-            console.log("Authenticate");
-
             // Try to get the current session
             const sessionResponse = await fetch("/api/auth/session");
-
-            console.log("Response: ", sessionResponse.ok);
 
             // There is a session
             if (sessionResponse.ok) {
                 const session: Session = await sessionResponse.json();
 
-                console.log("Session: ", session);
-
                 resolve(session);
                 return;
             }
 
-            // There is no session, so we login
-            const bootstrapToken = await getMSALBootstrapToken();
+            let bootstrapToken: string;
+            try {
+                bootstrapToken = await getSSOBootstrapToken();
+            } catch (error) {
+                bootstrapToken = await getMSALBootstrapToken();
+            }
 
             const loginResponse = await fetch("/api/auth/login", {
                 method: "POST",
