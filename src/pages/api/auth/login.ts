@@ -1,5 +1,5 @@
+import { exchangeBootstrapToken } from "@/auth/exchange-bootstrap-token";
 import { ensureUserExists } from "@/auth/session/ensure-user-exists";
-import { exchangeBootstrapToken } from "@/auth/session/exchange-bootstrap-token";
 import { createSession } from "@/auth/session/handle-session";
 import { setSessionTokenCookie } from "@/auth/session/handle-session-cookie";
 import { encryptSessionToken, generateSessionToken } from "@/auth/session/handle-session-token";

@@ -162,7 +162,7 @@ Die Taskpane ist die Hauptoberfläche des Add-Ins, die dem Benutzer angezeigt wi
 
 ### 3.2 Authentifizierungs-Logik
 
-**Datei**: `src/auth/index.ts`
+**Datei**: `src/auth/authenticate.ts`
 
 Die Hauptfunktion `authenticate()` koordiniert den gesamten Authentifizierungsprozess:
 
@@ -292,13 +292,13 @@ setSessionTokenCookie(context, sessionToken, new Date(session.expiresAt));
 - Setzt ein HttpOnly Cookie mit dem Session-Token
 - Cookie ist sicher konfiguriert (Secure in Production, SameSite: lax)
 
-**Nächster Schritt**: `src/auth/session/exchange-bootstrap-token.ts`
+**Nächster Schritt**: `src/auth/exchange-bootstrap-token.ts`
 
 ---
 
 ### 3.6 Token-Exchange
 
-**Datei**: `src/auth/session/exchange-bootstrap-token.ts`
+**Datei**: `src/auth/exchange-bootstrap-token.ts`
 
 Implementiert den OAuth 2.0 On-Behalf-Of (OBO) Flow:
 
