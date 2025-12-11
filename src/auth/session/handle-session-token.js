@@ -7,7 +7,7 @@ import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from "@oslojs/enco
  * This token will be used as the identifier of a user's session.
  *
  */
-export function generateSessionToken(): string {
+export function generateSessionToken() {
     const bytes = crypto.getRandomValues(new Uint8Array(20));
     const token = encodeBase32LowerCaseNoPadding(bytes);
 
@@ -19,6 +19,6 @@ export function generateSessionToken(): string {
  *
  * The encrypted value is meant to be the `id` field of a session database item.
  */
-export function encryptSessionToken(token: string) {
+export function encryptSessionToken(token) {
     return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 }

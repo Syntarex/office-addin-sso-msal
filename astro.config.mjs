@@ -34,18 +34,6 @@ export default defineConfig({
                 type: "string",
                 optional: true,
             },
-            DB_REPLICA_PATH: {
-                context: "server",
-                access: "secret",
-                type: "string",
-                optional: true,
-            },
-            DB_REPLICA_SYNC_INTERVAL: {
-                context: "server",
-                access: "secret",
-                type: "number",
-                optional: true,
-            },
             SITE_URL: {
                 context: "client",
                 access: "public",

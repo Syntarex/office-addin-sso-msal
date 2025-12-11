@@ -1,4 +1,4 @@
-import { LogLevel, PublicClientApplication, type Configuration, type RedirectRequest } from "@azure/msal-browser";
+import { LogLevel, PublicClientApplication } from "@azure/msal-browser";
 import { ENTRA_APP_API_RESOURCE, ENTRA_APP_ID, SITE_URL, TENANT_ID } from "astro:env/client";
 
 /**
@@ -17,7 +17,7 @@ export const scopes = ["openid", "profile", "offline_access", "User.Read", "User
  * For a full list of MSAL.js configuration parameters, visit:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md
  */
-export const msalConfig: Configuration = {
+export const msalConfig = {
     auth: {
         clientId: ENTRA_APP_ID, // This is the ONLY mandatory field that you need to supply.
         authority: `https://login.microsoftonline.com/${TENANT_ID}`, // Defaults to "https://login.microsoftonline.com/common"
@@ -67,7 +67,7 @@ export const msal = new PublicClientApplication(msalConfig);
 *
 * We use the `access_as_user` scope to make exchanging the token for a graph token possible.
 */
-export const msalLoginRequest: RedirectRequest = { scopes: [`${ENTRA_APP_API_RESOURCE}/access_as_user`] }
+export const msalLoginRequest = { scopes: [`${ENTRA_APP_API_RESOURCE}/access_as_user`] }
 
 
 /**

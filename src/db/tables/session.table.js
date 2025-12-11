@@ -1,6 +1,6 @@
-import timestampColumns from "@/db/models/timestamp-columns.model";
-import UserTable from "@/db/tables/user.table";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import timestampColumns from "../models/timestamp-columns.model";
+import UserTable from "./user.table";
 
 export default sqliteTable(
     "session",

@@ -1,17 +1,15 @@
-import { accessTokenTreshold, scopes, sessionLifetime } from "@/auth/auth.config";
-import type { Session } from "@/auth/models/session.model";
-import type { User } from "@/auth/models/user.model";
-import { db } from "@/db";
-import { SessionTable, UserTable } from "@/db/db.schema";
-import { MicrosoftEntraId, type OAuth2Tokens } from "arctic";
+import { MicrosoftEntraId } from "arctic";
 import { ENTRA_APP_ID, SITE_URL, TENANT_ID } from "astro:env/client";
 import { ENTRA_APP_SECRET } from "astro:env/server";
 import { eq } from "drizzle-orm";
+import { db } from "../../db";
+import { SessionTable, UserTable } from "../../db/db.schema";
+import { accessTokenTreshold, scopes, sessionLifetime } from "../auth.config";
 
 /**
  * An `arctic` instance which helps interacting with Microsoft Entra ID.
  */
- const microsoftEntra = new MicrosoftEntraId(
+const microsoftEntra = new MicrosoftEntraId(
     TENANT_ID,
     ENTRA_APP_ID,
     ENTRA_APP_SECRET,
@@ -29,8 +27,8 @@ import { eq } from "drizzle-orm";
  * - Returns associated database items of session and user
  */
 export async function validateSession(
-    sessionId: string,
-): Promise<{ session: Session; user: User } | { session: null; user: null }> {
+    sessionId,
+) {
     const [result] = await db
         .select()
         .from(SessionTable)
@@ -92,17 +90,17 @@ export async function validateSession(
  * Adds a session to the database.
  */
 export async function createSession(
-    sessionId: string,
-    userId: string,
-    msTokens: OAuth2Tokens,
-): Promise<Session> {
+    sessionId,
+    userId,
+    msTokens,
+) {
     if (!msTokens.hasRefreshToken()) {
         throw new Error(
             "Failed to read refresh token. Make sure your scopes include 'offline_access'.",
         );
     }
 
-    const session: typeof SessionTable.$inferInsert = {
+    const session = {
         id: sessionId,
         userId,
         expiresAt: Date.now() + sessionLifetime,
@@ -125,7 +123,7 @@ export async function createSession(
  * Closes a specific session.
  * It's like signing a user out.
  */
-export async function invalidateSession(sessionId: string): Promise<void> {
+export async function invalidateSession(sessionId) {
     await db.delete(SessionTable).where(eq(SessionTable.id, sessionId));
 }
 
@@ -133,6 +131,6 @@ export async function invalidateSession(sessionId: string): Promise<void> {
  * Closes all sessions of a user.
  * It's like signing a user out on any of his devices.
  */
-export async function invalidateAllSessions(userId: string): Promise<void> {
+export async function invalidateAllSessions(userId) {
     await db.delete(SessionTable).where(eq(SessionTable.userId, userId));
 }

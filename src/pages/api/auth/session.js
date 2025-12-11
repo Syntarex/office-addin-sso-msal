@@ -1,13 +1,11 @@
-import { validateSession } from "@/auth/session/handle-session";
-import { deleteSessionTokenCookie, setSessionTokenCookie } from "@/auth/session/handle-session-cookie";
 import { sha256 } from "@oslojs/crypto/sha2";
 import { encodeHexLowerCase } from "@oslojs/encoding";
-import type { APIRoute } from "astro";
-import { omit } from "radash";
+import { validateSession } from "../../../auth/session/handle-session";
+import { deleteSessionTokenCookie, setSessionTokenCookie } from "../../../auth/session/handle-session-cookie";
 
 export const prerender = false;
 
-export const GET: APIRoute = async (context) => {
+export const GET = async (context) => {
     // Check for session cookie
     const token = context.cookies.get("session")?.value ?? null;
     if (!token) {
@@ -30,10 +28,10 @@ export const GET: APIRoute = async (context) => {
     setSessionTokenCookie(context, token, new Date(session.expiresAt));
 
     // Remove the refresh token from payload
-    const sanitizedSession = omit(session, ["refreshToken"]);
+    delete session.refreshToken;
 
     // Return session and user information
-    return new Response(JSON.stringify(sanitizedSession), {
+    return new Response(JSON.stringify(session), {
         status: 200,
         headers: {
             "Content-Type": "application/json",

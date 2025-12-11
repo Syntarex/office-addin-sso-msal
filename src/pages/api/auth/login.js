@@ -1,11 +1,9 @@
-import { exchangeBootstrapToken } from "@/auth/exchange-bootstrap-token";
-import { ensureUserExists } from "@/auth/session/ensure-user-exists";
-import { createSession } from "@/auth/session/handle-session";
-import { setSessionTokenCookie } from "@/auth/session/handle-session-cookie";
-import { encryptSessionToken, generateSessionToken } from "@/auth/session/handle-session-token";
 import { decodeIdToken } from "arctic";
-import type { APIRoute } from "astro";
-import { isString, omit } from "radash";
+import { exchangeBootstrapToken } from "../../../auth/exchange-bootstrap-token";
+import { ensureUserExists } from "../../../auth/session/ensure-user-exists";
+import { createSession } from "../../../auth/session/handle-session";
+import { setSessionTokenCookie } from "../../../auth/session/handle-session-cookie";
+import { encryptSessionToken, generateSessionToken } from "../../../auth/session/handle-session-token";
 
 export const prerender = false;
 
@@ -15,7 +13,7 @@ export const prerender = false;
  * API endpoint to handle SSO authentication.
  * Follows the same pattern as callback.ts for session handling.
  */
-export const POST: APIRoute = async (context) => {
+export const POST = async (context) => {
     // Get the SSO token from the request body
     const { bootstrapToken } = await context.request.json();
 
@@ -34,7 +32,7 @@ export const POST: APIRoute = async (context) => {
         const claims = decodeIdToken(tokens.idToken());
 
         // Make sure the user has an ID
-        if (!("oid" in claims) || !isString(claims.oid)) {
+        if (!("oid" in claims)) {
             throw new Error("Failed to get user information from ID token");
         }
 
@@ -50,9 +48,9 @@ export const POST: APIRoute = async (context) => {
         setSessionTokenCookie(context, sessionToken, new Date(session.expiresAt));
 
         // Return session (without refresh token for security)
-        const sanitizedSession = omit(session, ["refreshToken"]);
+        delete session.refreshToken;
 
-        return new Response(JSON.stringify(sanitizedSession), {
+        return new Response(JSON.stringify(session), {
             status: 200,
             headers: {
                 "Content-Type": "application/json",

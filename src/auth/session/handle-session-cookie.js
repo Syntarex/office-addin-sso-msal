@@ -1,6 +1,5 @@
-import type { APIContext } from "astro";
 
-export function getSessionTokenFromCookie(context: APIContext): string | null {
+export function getSessionTokenFromCookie(context) {
     const token = context.cookies.get("session")?.value ?? null;
 
     if (!token) {
@@ -10,7 +9,7 @@ export function getSessionTokenFromCookie(context: APIContext): string | null {
     return token;
 }
 
-export function setSessionTokenCookie(context: APIContext, token: string, expiresAt: Date): void {
+export function setSessionTokenCookie(context, token, expiresAt) {
     context.cookies.set("session", token, {
         path: "/",
         secure: import.meta.env.PROD,
@@ -20,7 +19,7 @@ export function setSessionTokenCookie(context: APIContext, token: string, expire
     });
 }
 
-export function deleteSessionTokenCookie(context: APIContext): void {
+export function deleteSessionTokenCookie(context) {
     context.cookies.set("session", "", {
         path: "/",
         secure: import.meta.env.PROD,

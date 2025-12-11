@@ -1,7 +1,7 @@
-import { scopes, tokenEndpoint } from "@/auth/auth.config";
 import { OAuth2Tokens } from "arctic";
 import { ENTRA_APP_ID } from "astro:env/client";
 import { ENTRA_APP_SECRET } from "astro:env/server";
+import { scopes, tokenEndpoint } from "./auth.config";
 
 /**
  * Exchanges a bootstrap token for graph tokens including refresh token and ID token
@@ -9,7 +9,7 @@ import { ENTRA_APP_SECRET } from "astro:env/server";
  *
  * @param bootstrapToken - The bootstrap token obtained from Office SSO or MSAL
  */
-export async function exchangeBootstrapToken(bootstrapToken: string): Promise<OAuth2Tokens> {
+export async function exchangeBootstrapToken(bootstrapToken) {
     const params = new URLSearchParams();
     params.append("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer");
     params.append("client_id", ENTRA_APP_ID);
@@ -32,12 +32,7 @@ export async function exchangeBootstrapToken(bootstrapToken: string): Promise<OA
         throw new Error(`Failed to exchange SSO token: ${response.status} ${response.statusText}. ${errorText}`);
     }
 
-    const data = await response.json() as {
-        access_token: string;
-        refresh_token?: string;
-        id_token?: string;
-        expires_in: number;
-    };
+    const data = await response.json();
 
     if (!data.access_token) {
         throw new Error("No access token received from token exchange");

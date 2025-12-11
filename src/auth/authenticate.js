@@ -1,22 +1,21 @@
-import type { Session } from "@/auth/models/session.model";
-import { getMSALBootstrapToken } from "@/auth/msal/get-msal-bootstrap-token";
-import { getSSOBootstrapToken } from "@/auth/sso/get-sso-bootstrap-token";
+import { getMSALBootstrapToken } from "./msal/get-msal-bootstrap-token";
+import { getSSOBootstrapToken } from "./sso/get-sso-bootstrap-token";
 
-export async function authenticate(): Promise<Session> {
-    const session: Session = await new Promise<Session>((resolve, reject) => {
+export async function authenticate() {
+    const session = await new Promise((resolve, reject) => {
         Office.onReady(async () => {
             // Try to get the current session
             const sessionResponse = await fetch("/api/auth/session");
 
             // There is a session
             if (sessionResponse.ok) {
-                const session: Session = await sessionResponse.json();
+                const session = await sessionResponse.json();
 
                 resolve(session);
                 return;
             }
 
-            let bootstrapToken: string;
+            let bootstrapToken;
             try {
                 bootstrapToken = await getSSOBootstrapToken();
             } catch (error) {
@@ -33,7 +32,7 @@ export async function authenticate(): Promise<Session> {
                 return;
             }
 
-            const session: Session = await loginResponse.json();
+            const session = await loginResponse.json();
 
             resolve(session);
             return;

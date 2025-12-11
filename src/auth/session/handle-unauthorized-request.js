@@ -1,17 +1,7 @@
-import type { APIContext } from "astro";
-
-/**
- * Renders an astro component which includes a `script`.
- * The scripts redirects the browser to the login page.
- * This is used as response body if an unauthorized user hits a protected server island.
- * This method is only used for the narrow use case of a user hitting a protected server island.
- * It's kinda weird but it works like a charm.
- */
-
 /**
  * Defines how the request is handled, if the user is unauthorized but tries to access a protected route.
  */
-export async function handleUnauthorizedRequest(context: APIContext): Promise<Response> {
+export async function handleUnauthorizedRequest(context) {
     // The url which triggered the middleware
     const route = context.url.pathname;
 

@@ -1,10 +1,10 @@
 ---
-import RootLayout from "@/ui/components/RootLayout.astro";
+import RootLayout from "../ui/components/RootLayout.astro";
 ---
 
 <RootLayout>
     <script>
-        import { handleMSALDialog } from "@/auth/msal/handle-msal-dialog";
+        import { handleMSALDialog } from "../auth/msal/handle-msal-dialog";
 
         handleMSALDialog();
     </script>

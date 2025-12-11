@@ -1,11 +1,11 @@
-import { msal, msalLoginRequest } from "@/auth/auth.config";
 import { SITE_URL } from "astro:env/client";
+import { msal, msalLoginRequest } from "../auth.config";
 
 
 /**
  * Gets a bootstrap token using MSAL (Microsoft Authentication Library for the browser.)
  */
-export async function getMSALBootstrapToken(): Promise<string> {
+export async function getMSALBootstrapToken() {
     await msal.initialize();
 
     // Try to get account from cache first
@@ -22,7 +22,7 @@ export async function getMSALBootstrapToken(): Promise<string> {
     }
 
     // Create a promise to wrap the dialog callback we need to process later in this function.
-    const token = await new Promise<string>((resolve, reject) => {
+    const token = await new Promise < string > ((resolve, reject) => {
         const url = `https://${SITE_URL}/dialog`;
 
         // height and width are percentages of the size of the parent Office application, e.g., Outlook, PowerPoint, Excel, Word, etc.
@@ -75,7 +75,7 @@ export async function getMSALBootstrapToken(): Promise<string> {
 
                             if (messageFromDialog.status === 'success') {
                                 // Set the active account so future token requests can be silent
-                                msal.setActiveAccount(msal.getAccount({ homeAccountId:messageFromDialog.accountId }));
+                                msal.setActiveAccount(msal.getAccount({ homeAccountId: messageFromDialog.accountId }));
 
                                 // Return the token
                                 resolve(messageFromDialog.result);
