@@ -22,9 +22,8 @@ export async function getMSALBootstrapToken() {
     }
 
     // Create a promise to wrap the dialog callback we need to process later in this function.
-    const token = await new Promise < string > ((resolve, reject) => {
+    const token = await new Promise((resolve, reject) => {
         const url = `https://${SITE_URL}/dialog`;
-
         // height and width are percentages of the size of the parent Office application, e.g., Outlook, PowerPoint, Excel, Word, etc.
         Office.context.ui.displayDialogAsync(
             url,

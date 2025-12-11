@@ -413,7 +413,7 @@ Bevor Sie das Add-In verwenden können, müssen Sie eine App-Registrierung in Az
 4. Notieren Sie die **Application (Client) ID** und **Directory (Tenant) ID**
 5. Erstellen Sie ein **Client Secret** unter "Certificates & secrets"
 6. Konfigurieren Sie **Redirect URIs**:
-   - `https://<SITE_URL>/dialog.html` (Platform "Web", MSAL)
+   - `https://<SITE_URL>/dialog` (Platform "Web", MSAL)
    - `https://<SITE_URL>` (Platform "SPA", SSO)
    - ![Authentication](docs/authentication.jpg)
 7. Konfigurieren Sie **API Permissions**:

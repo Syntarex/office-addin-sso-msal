@@ -21,7 +21,7 @@ export const msalConfig = {
     auth: {
         clientId: ENTRA_APP_ID, // This is the ONLY mandatory field that you need to supply.
         authority: `https://login.microsoftonline.com/${TENANT_ID}`, // Defaults to "https://login.microsoftonline.com/common"
-        redirectUri: `https://${SITE_URL}/dialog.html`, // You must register this URI on Azure Portal/App Registration. Defaults to window.location.href
+        redirectUri: `https://${SITE_URL}/dialog`, // You must register this URI on Azure Portal/App Registration. Defaults to window.location.href
         navigateToLoginRequestUrl: false, // If "true", will navigate back to the original request location before processing the auth code response.
     },
     cache: {
