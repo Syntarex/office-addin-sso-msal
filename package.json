@@ -6,7 +6,6 @@
         "astro": "astro",
         "prebuild": "drizzle-kit generate --config ./db.config.js",
         "build": "astro build",
-        "clean": "rimraf ./node_modules/.astro && rimraf ./.astro && rimraf ./dist && rimraf ./deploy.zip",
         "dev": "astro dev --port 3000",
         "migrate": "drizzle-kit generate --config ./db.config.js && drizzle-kit migrate --config ./db.config.js",
         "start": "HOST=0.0.0.0 PORT=8080 node ./dist/server/entry.mjs"
@@ -26,9 +25,6 @@
         "astro": "^5.15.9",
         "drizzle-kit": "^0.31.7",
         "drizzle-orm": "^0.44.7"
-    },
-    "devDependencies": {
-        "rimraf": "^6.1.0"
     },
     "engines": {
         "node": ">=22",

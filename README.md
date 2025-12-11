@@ -162,7 +162,7 @@ Die Taskpane ist die Hauptoberfläche des Add-Ins, die dem Benutzer angezeigt wi
 
 ### 3.2 Authentifizierungs-Logik
 
-**Datei**: `src/auth/authenticate.ts`
+**Datei**: `src/auth/authenticate.js`
 
 Die Hauptfunktion `authenticate()` koordiniert den gesamten Authentifizierungsprozess:
 
@@ -197,13 +197,13 @@ const loginResponse = await fetch("/api/auth/login", {
 - Sendet den Bootstrap Token an den Server
 - Server tauscht Token gegen Graph Tokens
 
-**Nächster Schritt**: Entweder SSO Token (`src/auth/sso/get-sso-bootstrap-token.ts`) oder MSAL Token (`src/auth/msal/get-msal-bootstrap-token.ts`)
+**Nächster Schritt**: Entweder SSO Token (`src/auth/sso/get-sso-bootstrap-token.js`) oder MSAL Token (`src/auth/msal/get-msal-bootstrap-token.js`)
 
 ---
 
 ### 3.3 SSO Token
 
-**Datei**: `src/auth/sso/get-sso-bootstrap-token.ts`
+**Datei**: `src/auth/sso/get-sso-bootstrap-token.js`
 
 Die einfachste Methode zur Token-Beschaffung:
 
@@ -226,13 +226,13 @@ export async function getSSOBootstrapToken() {
 **Weitere Informationen:**
 - [Office Add-Ins SSO Dokumentation](https://learn.microsoft.com/office/dev/add-ins/develop/sso-in-office-add-ins)
 
-**Nächster Schritt**: Falls erfolgreich → `src/pages/api/auth/login.ts`, falls fehlgeschlagen → MSAL Fallback
+**Nächster Schritt**: Falls erfolgreich → `src/pages/api/auth/login.js`, falls fehlgeschlagen → MSAL Fallback
 
 ---
 
 ### 3.4 MSAL Fallback
 
-**Datei**: `src/auth/msal/get-msal-bootstrap-token.ts`
+**Datei**: `src/auth/msal/get-msal-bootstrap-token.js`
 
 Wenn SSO nicht verfügbar ist, wird MSAL verwendet:
 
@@ -246,19 +246,19 @@ Wenn SSO nicht verfügbar ist, wird MSAL verwendet:
   - Lädt die MSAL-Dialog-Handler-Funktion
   - Wird in einem Office-Dialog-Fenster angezeigt
 
-- **Dialog-Handler**: `src/auth/msal/handle-msal-dialog.ts`
+- **Dialog-Handler**: `src/auth/msal/handle-msal-dialog.js`
   - Verarbeitet die MSAL-Authentifizierungsantwort
   - Sendet Token zurück an die Hauptanwendung über `Office.context.ui.messageParent()`
 
-**MSAL Konfiguration**: Siehe `src/auth/auth.config.ts` (Abschnitt 4.3)
+**MSAL Konfiguration**: Siehe `src/auth/auth.config.js` (Abschnitt 4.3)
 
-**Nächster Schritt**: `src/pages/api/auth/login.ts`
+**Nächster Schritt**: `src/pages/api/auth/login.js`
 
 ---
 
 ### 3.5 Server-seitiger Login
 
-**Datei**: `src/pages/api/auth/login.ts`
+**Datei**: `src/pages/api/auth/login.js`
 
 Der Server-Endpunkt verarbeitet den Bootstrap Token:
 
@@ -292,13 +292,13 @@ setSessionTokenCookie(context, sessionToken, new Date(session.expiresAt));
 - Setzt ein HttpOnly Cookie mit dem Session-Token
 - Cookie ist sicher konfiguriert (Secure in Production, SameSite: lax)
 
-**Nächster Schritt**: `src/auth/exchange-bootstrap-token.ts`
+**Nächster Schritt**: `src/auth/exchange-bootstrap-token.js`
 
 ---
 
 ### 3.6 Token-Exchange
 
-**Datei**: `src/auth/exchange-bootstrap-token.ts`
+**Datei**: `src/auth/exchange-bootstrap-token.js`
 
 Implementiert den OAuth 2.0 On-Behalf-Of (OBO) Flow:
 
@@ -312,18 +312,18 @@ Implementiert den OAuth 2.0 On-Behalf-Of (OBO) Flow:
 
 **Konfiguration:**
 - **Token-Endpunkt**: `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token`
-- **Scopes**: Definiert in `src/auth/auth.config.ts` (Standard: `openid`, `profile`, `offline_access`, `User.Read`, `User.ReadBasic.All`)
+- **Scopes**: Definiert in `src/auth/auth.config.js` (Standard: `openid`, `profile`, `offline_access`, `User.Read`, `User.ReadBasic.All`)
 
 **Weitere Informationen:**
 - [Microsoft OAuth 2.0 On-Behalf-Of Flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow)
 
-**Nächster Schritt**: Session wird erstellt (`src/auth/session/handle-session.ts`)
+**Nächster Schritt**: Session wird erstellt (`src/auth/session/handle-session.js`)
 
 ---
 
 ### 3.7 Session-Management
 
-**Datei**: `src/auth/session/handle-session.ts`
+**Datei**: `src/auth/session/handle-session.js`
 
 Verwaltet Sessions und Token-Refresh:
 
@@ -342,13 +342,13 @@ Verwaltet Sessions und Token-Refresh:
 - Speichert Access Token, Refresh Token und Ablaufzeiten
 - Session-Lebensdauer: 90 Tage (entspricht Refresh Token Gültigkeit)
 
-**Nächster Schritt**: Session-Endpunkt (`src/pages/api/auth/session.ts`)
+**Nächster Schritt**: Session-Endpunkt (`src/pages/api/auth/session.js`)
 
 ---
 
 ### 3.8 Session-Endpunkt
 
-**Datei**: `src/pages/api/auth/session.ts`
+**Datei**: `src/pages/api/auth/session.js`
 
 Prüft bestehende Sessions:
 
@@ -368,7 +368,7 @@ Prüft bestehende Sessions:
 
 ### 3.9 Graph API Client
 
-**Datei**: `src/graph/get-client-graph.ts`
+**Datei**: `src/graph/get-client-graph.js`
 
 Verwendet den Access Token für Microsoft Graph API Aufrufe:
 
@@ -458,7 +458,7 @@ Das Manifest definiert die Add-In Konfiguration für Office:
 
 ### 4.3 MSAL Konfiguration
 
-**Datei**: `src/auth/auth.config.ts`
+**Datei**: `src/auth/auth.config.js`
 
 Konfiguriert MSAL und Token-Einstellungen:
 
@@ -519,13 +519,13 @@ Siehe `.env.example` im Projekt-Root.
 
 ### 4.5 Datenbank-Schema
 
-**Schema-Definitionen**: `src/db/tables/*.table.ts`
+**Schema-Definitionen**: `src/db/tables/*.table.js`
 
-**User Tabelle** (`src/db/tables/user.table.ts`):
+**User Tabelle** (`src/db/tables/user.table.js`):
 - Speichert Benutzer-IDs (Microsoft Entra ID Object ID)
 - Wird automatisch erstellt, wenn ein neuer Benutzer sich anmeldet
 
-**Session Tabelle** (`src/db/tables/session.table.ts`):
+**Session Tabelle** (`src/db/tables/session.table.js`):
 - **`id`**: Verschlüsselter Session-Token (SHA-256 Hash)
 - **`userId`**: Referenz auf User Tabelle
 - **`expiresAt`**: Session-Ablaufzeit (90 Tage)
