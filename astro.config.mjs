@@ -1,9 +1,8 @@
 import node from "@astrojs/node";
 import https from "@vitejs/plugin-basic-ssl";
 import { defineConfig } from "astro/config";
-import { toInt } from "radash";
 
-const port = process.env.PORT ? toInt(process.env.PORT) : 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 const site = process.env.SITE_URL
     ? `https://${process.env.SITE_URL}`
